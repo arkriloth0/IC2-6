@@ -1,0 +1,32 @@
+{
+    "id": "469AB2D9",
+    "path": null,
+    "project_path": null,
+    "type": "r_dataframe",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1600986111566.0,
+    "source_on_save": false,
+    "relative_order": 4,
+    "properties": {
+        "expression": "ZNF_breast",
+        "caption": "ZNF_breast",
+        "totalObservations": "83",
+        "displayedObservations": "83",
+        "variables": "31",
+        "cacheKey": "2AA5CF9B",
+        "object": "ZNF_breast",
+        "environment": "",
+        "contentUrl": "grid_resource/gridviewer.html?env=&obj=ZNF_breast&cache_key=2AA5CF9B&max_cols=50",
+        "preview": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1600984289,
+    "encoding": "",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1600986111566,
+    "read_only": false,
+    "read_only_alternatives": []
+}

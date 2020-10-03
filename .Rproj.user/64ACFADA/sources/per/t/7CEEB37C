@@ -1,0 +1,32 @@
+{
+    "id": "7CEEB37C",
+    "path": null,
+    "project_path": null,
+    "type": "r_dataframe",
+    "hash": "0",
+    "contents": "",
+    "dirty": false,
+    "created": 1600985394750.0,
+    "source_on_save": false,
+    "relative_order": 3,
+    "properties": {
+        "expression": "ZNF_prot",
+        "caption": "ZNF_prot",
+        "totalObservations": "378",
+        "displayedObservations": "378",
+        "variables": "2",
+        "cacheKey": "C2602C35",
+        "object": "ZNF_prot",
+        "environment": "",
+        "contentUrl": "grid_resource/gridviewer.html?env=&obj=ZNF_prot&cache_key=C2602C35&max_cols=50",
+        "preview": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 7310589519812763692,
+    "encoding": "",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1600985394750,
+    "read_only": false,
+    "read_only_alternatives": []
+}

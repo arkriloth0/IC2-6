@@ -1,0 +1,25 @@
+{
+    "id": "86ED41A7",
+    "path": "~/ZNF703/DepMap data processing.R",
+    "project_path": "DepMap data processing.R",
+    "type": "r_source",
+    "hash": "57048786",
+    "contents": "",
+    "dirty": false,
+    "created": 1600090180335.0,
+    "source_on_save": false,
+    "relative_order": 1,
+    "properties": {
+        "cursorPosition": "82,23",
+        "scrollLine": "58",
+        "tempName": "Untitled1"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1600986604,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1600986604126,
+    "read_only": false,
+    "read_only_alternatives": []
+}
