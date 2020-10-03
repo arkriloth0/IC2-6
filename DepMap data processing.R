@@ -87,3 +87,10 @@ eh <- ExperimentHub()
 query(eh, "depmap")
 d <- display(eh)
 
+
+#           title             
+#EH3797 | crispr_20Q3       
+#EH3798 | copyNumber_20Q3   
+#EH3799 | TPM_20Q3          
+#EH3800 | mutationCalls_20Q3
+#EH3801 | metadata_20Q3   
