@@ -1,0 +1,293 @@
+#install packages
+install.packages("BiocManager")
+BiocManager::install(version='devel')
+BiocManager::install("depmap")
+BiocManager::install("remotes")
+BiocManager::install("uclouvain-cbio/depmap")
+
+#load libraries
+library(tidyverse)
+library(data.table)
+library(ExperimentHub)
+library(depmap)
+
+#load depmap proteomic data
+prot <- depmap_proteomic()
+
+#load sample info
+sample_info <- fread("sample_info.csv")
+
+#load list of breast cancer cell lines
+BreastCA_lines <- fread("Breast cell lines.csv", header = FALSE, col.names = "DepMap_ID")
+
+##MYEOV
+
+#Get copy number of MYEOV
+myeov_CN <- fread("CCLE_gene_cn.csv", select = c("V1","MYEOV (26579)"))
+colnames(myeov_CN) <- c("DepMap_ID","MYEOV_copy_number")
+
+#Get absolute copy number of MYEOV
+myeov_absCN <- fread("Copy_Number_(Absolute).csv", select = c("V1","MYEOV"),col.names = c("DepMap_ID","abs_CN"))
+colnames(myeov_absCN) <- c("DepMap_ID","MYEOV_abs_CN")
+
+#Get mRNA expression of MYEOV
+myeov_expression <- fread("CCLE_expression.csv", select = c("V1","MYEOV (26579)"))
+colnames(myeov_expression) <- c("DepMap_ID","MYEOV_mRNA_expression")
+
+#get protein expression of MYEOV
+myeov_prot <- prot %>% filter(entrez_id == "26579")%>%
+  select(depmap_id,protein_expression)
+colnames(myeov_prot)<- c("DepMap_ID","MYEOV_protein_expression")
+
+#get CRISPR dependency data of MYEOV
+myeov_dep <- fread("Achilles_gene_effect.csv", select = c("DepMap_ID","MYEOV (26579)"))
+colnames(myeov_dep) <- c("DepMap_ID","MYEOV_CERES")
+
+#get CRISPR dependency p value of MYEOV
+myeov_pdep <- fread("Achilles_gene_dependency.csv", select = c("DepMap_ID","MYEOV (26579)"))
+colnames(myeov_pdep) <- c("DepMap_ID","MYEOV_p_dep")
+
+#joining all MYEOV tables
+myeov_all <- myeov_CN %>%
+  full_join(myeov_absCN) %>%
+  full_join(myeov_expression) %>%
+  full_join(myeov_prot) %>%
+  full_join(myeov_dep) %>%
+  full_join(myeov_pdep)
+
+
+##CCND1
+
+#Get copy number of CCND1
+ccnd1_CN <- fread("CCLE_gene_cn.csv", select = c("V1","CCND1 (595)"))
+colnames(ccnd1_CN) <- c("DepMap_ID","CCND1_copy_number")
+
+#Get absolute copy number of CCND1
+ccnd1_absCN <- fread("Copy_Number_(Absolute).csv", select = c("V1","CCND1"),col.names = c("DepMap_ID","abs_CN"))
+colnames(ccnd1_absCN) <- c("DepMap_ID","CCND1_abs_CN")
+
+#Get mRNA expression of CCND1
+ccnd1_expression <- fread("CCLE_expression.csv", select = c("V1","CCND1 (595)"))
+colnames(ccnd1_expression) <- c("DepMap_ID","CCND1_mRNA_expression")
+
+#get protein expression of CCND1
+ccnd1_prot <- prot %>% filter(entrez_id == "595")%>%
+  select(depmap_id,protein_expression)
+colnames(ccnd1_prot) <- c("DepMap_ID","CCND1_protein_expression")
+
+#get CRISPR dependency data of CCND1
+ccnd1_dep <- fread("Achilles_gene_effect.csv", select = c("DepMap_ID","CCND1 (595)"))
+colnames(ccnd1_dep) <- c("DepMap_ID","CCND1_CERES")
+
+#get CRISPR dependency p value of CCND1
+ccnd1_pdep <- fread("Achilles_gene_dependency.csv", select = c("DepMap_ID","CCND1 (595)"))
+colnames(ccnd1_pdep) <- c("DepMap_ID","CCND1_p_dep")
+
+
+#joining all CCND1 tables
+ccnd1_all <- ccnd1_CN %>%
+  full_join(ccnd1_absCN) %>%
+  full_join(ccnd1_expression) %>%
+  full_join(ccnd1_prot) %>%
+  full_join(ccnd1_dep) %>%
+  full_join(ccnd1_pdep)
+
+
+##FADD
+
+#Get copy number of FADD
+fadd_CN <- fread("CCLE_gene_cn.csv", select = c("V1","FADD (8772)"))
+colnames(fadd_CN) <- c("DepMap_ID","FADD_copy_number")
+
+#Get absolute copy number of FADD
+fadd_absCN <- fread("Copy_Number_(Absolute).csv", select = c("V1","FADD"),col.names = c("DepMap_ID","abs_CN"))
+colnames(fadd_absCN) <- c("DepMap_ID","FADD_abs_CN")
+
+#Get mRNA expression of FADD
+fadd_expression <- fread("CCLE_expression.csv", select = c("V1","FADD (8772)"))
+colnames(fadd_expression) <- c("DepMap_ID","FADD_mRNA_expression")
+
+#get protein expression of FADD
+fadd_prot <- prot %>% filter(entrez_id == "8772")%>%
+  select(depmap_id,protein_expression)
+colnames(fadd_prot) <- c("DepMap_ID","FADD_protein_expression")
+
+#get CRISPR dependency data of FADD
+fadd_dep <- fread("Achilles_gene_effect.csv", select = c("DepMap_ID","FADD (8772)"))
+colnames(fadd_dep) <- c("DepMap_ID","FADD_CERES")
+
+#get CRISPR dependency p value of FADD
+fadd_pdep <- fread("Achilles_gene_dependency.csv", select = c("DepMap_ID","FADD (8772)"))
+colnames(fadd_pdep) <- c("DepMap_ID","FADD_p_dep")
+
+#joining all FADD tables
+fadd_all <- fadd_CN %>%
+  full_join(fadd_absCN) %>%
+  full_join(fadd_expression) %>%
+  full_join(fadd_prot) %>%
+  full_join(fadd_dep) %>%
+  full_join(fadd_pdep)
+
+
+##CTTN
+
+#Get copy number of CTTN
+cttn_CN <- fread("CCLE_gene_cn.csv", select = c("V1","CTTN (2017)"))
+colnames(cttn_CN) <- c("DepMap_ID","CTTN_copy_number")
+
+#Get absolute copy number of CTTN
+cttn_absCN <- fread("Copy_Number_(Absolute).csv", select = c("V1","CTTN"),col.names = c("DepMap_ID","abs_CN"))
+colnames(cttn_absCN) <- c("DepMap_ID","CTTN_abs_CN")
+
+#Get mRNA expression of CTTN
+cttn_expression <- fread("CCLE_expression.csv", select = c("V1","CTTN (2017)"))
+colnames(cttn_expression) <- c("DepMap_ID","CTTN_mRNA_expression")
+
+#get protein expression of CTTN
+cttn_prot <- prot %>% filter(entrez_id == "2017")%>%
+  select(depmap_id,protein_expression)
+colnames(cttn_prot) <- c("DepMap_ID","CTTN_protein_expression")
+
+#get CRISPR dependency data of CTTN
+cttn_dep <- fread("Achilles_gene_effect.csv", select = c("DepMap_ID","CTTN (2017)"))
+colnames(cttn_dep) <- c("DepMap_ID","CTTN_CERES")
+
+#get CRISPR dependency p value of CTTN
+cttn_pdep <- fread("Achilles_gene_dependency.csv", select = c("DepMap_ID","CTTN (2017)"))
+colnames(cttn_pdep) <- c("DepMap_ID","CTTN_p_dep")
+
+#joining all CTTN tables
+cttn_all <- cttn_CN %>%
+  full_join(cttn_absCN) %>%
+  full_join(cttn_expression) %>%
+  full_join(cttn_prot) %>%
+  full_join(cttn_dep) %>%
+  full_join(cttn_pdep)
+
+
+##EMSY
+
+#Get copy number of EMSY
+emsy_CN <- fread("CCLE_gene_cn.csv", select = c("V1","EMSY (56946)"))
+colnames(emsy_CN) <- c("DepMap_ID","EMSY_copy_number")
+
+#Get absolute copy number of EMSY
+emsy_absCN <- fread("Copy_Number_(Absolute).csv", select = c("V1","EMSY"),col.names = c("DepMap_ID","abs_CN"))
+colnames(emsy_absCN) <- c("DepMap_ID","EMSY_abs_CN")
+
+#Get mRNA expression of EMSY
+emsy_expression <- fread("CCLE_expression.csv", select = c("V1","EMSY (56946)"))
+colnames(emsy_expression) <- c("DepMap_ID","EMSY_mRNA_expression")
+
+#get protein expression of EMSY
+emsy_prot <- prot %>% filter(entrez_id == "56946")%>%
+  select(depmap_id,protein_expression)
+colnames(emsy_prot) <- c("DepMap_ID","EMSY_protein_expression")
+
+#get CRISPR dependency data of EMSY
+emsy_dep <- fread("Achilles_gene_effect.csv", select = c("DepMap_ID","EMSY (56946)"))
+colnames(emsy_dep) <- c("DepMap_ID","EMSY_CERES")
+
+#get CRISPR dependency p value of EMSY
+emsy_pdep <- fread("Achilles_gene_dependency.csv", select = c("DepMap_ID","EMSY (56946)"))
+colnames(emsy_pdep) <- c("DepMap_ID","EMSY_p_dep")
+
+#joining all EMSY tables
+emsy_all <- emsy_CN %>%
+  full_join(emsy_absCN) %>%
+  full_join(emsy_expression) %>%
+  full_join(emsy_prot) %>%
+  full_join(emsy_dep) %>%
+  full_join(emsy_pdep)
+
+
+##PAK1
+
+#Get copy number of PAK1
+pak1_CN <- fread("CCLE_gene_cn.csv", select = c("V1","PAK1 (5058)"))
+colnames(pak1_CN) <- c("DepMap_ID","PAK1_copy_number")
+
+#Get absolute copy number of PAK1
+pak1_absCN <- fread("Copy_Number_(Absolute).csv", select = c("V1","PAK1"),col.names = c("DepMap_ID","abs_CN"))
+colnames(pak1_absCN) <- c("DepMap_ID","PAK1_abs_CN")
+
+#Get mRNA expression of PAK1
+pak1_expression <- fread("CCLE_expression.csv", select = c("V1","PAK1 (5058)"))
+colnames(pak1_expression) <- c("DepMap_ID","PAK1_mRNA_expression")
+
+#get protein expression of PAK1
+pak1_prot <- prot %>% filter(entrez_id == "5058")%>%
+  select(depmap_id,protein_expression)
+colnames(pak1_prot) <- c("DepMap_ID","PAK1_protein_expression")
+
+#get CRISPR dependency data of PAK1
+pak1_dep <- fread("Achilles_gene_effect.csv", select = c("DepMap_ID","PAK1 (5058)"))
+colnames(pak1_dep) <- c("DepMap_ID","PAK1_CERES")
+
+#get CRISPR dependency p value of PAK1
+pak1_pdep <- fread("Achilles_gene_dependency.csv", select = c("DepMap_ID","PAK1 (5058)"))
+colnames(pak1_pdep) <- c("DepMap_ID","PAK1_p_dep")
+
+#joining all PAK1 tables
+pak1_all <- pak1_CN %>%
+  full_join(pak1_absCN) %>%
+  full_join(pak1_expression) %>%
+  full_join(pak1_prot) %>%
+  full_join(pak1_dep) %>%
+  full_join(pak1_pdep)
+
+
+##GAB2
+
+#Get copy number of GAB2
+gab2_CN <- fread("CCLE_gene_cn.csv", select = c("V1","GAB2 (9846)"))
+colnames(gab2_CN) <- c("DepMap_ID","GAB2_copy_number")
+
+#Get absolute copy number of GAB2
+gab2_absCN <- fread("Copy_Number_(Absolute).csv", select = c("V1","GAB2"),col.names = c("DepMap_ID","abs_CN"))
+colnames(gab2_absCN) <- c("DepMap_ID","GAB2_abs_CN")
+
+#Get mRNA expression of GAB2
+gab2_expression <- fread("CCLE_expression.csv", select = c("V1","GAB2 (9846)"))
+colnames(gab2_expression) <- c("DepMap_ID","GAB2_mRNA_expression")
+
+#get protein expression of GAB2
+gab2_prot <- prot %>% filter(entrez_id == "9846")%>%
+  select(depmap_id,protein_expression)
+colnames(gab2_prot) <- c("DepMap_ID","GAB2_protein_expression")
+
+#get CRISPR dependency data of GAB2
+gab2_dep <- fread("Achilles_gene_effect.csv", select = c("DepMap_ID","GAB2 (9846)"))
+colnames(gab2_dep) <- c("DepMap_ID","GAB2_CERES")
+
+#get CRISPR dependency p value of GAB2
+gab2_pdep <- fread("Achilles_gene_dependency.csv", select = c("DepMap_ID","GAB2 (9846)"))
+colnames(gab2_pdep) <- c("DepMap_ID","GAB2_p_dep")
+
+#joining all GAB2 tables
+gab2_all <- gab2_CN %>%
+  full_join(gab2_absCN) %>%
+  full_join(gab2_expression) %>%
+  full_join(gab2_prot) %>%
+  full_join(gab2_dep) %>%
+  full_join(gab2_pdep)
+
+
+#joining all 11q13 tables
+chr11q13_all <- myeov_all %>%
+  full_join(ccnd1_all) %>%
+  full_join(fadd_all) %>%
+  full_join(cttn_all) %>%
+  full_join(emsy_all) %>%
+  full_join(pak1_all) %>%
+  full_join(gab2_all)
+
+#Adding sample info/annotation
+chr11q13_all <- full_join(sample_info,chr11q13_all)
+
+write.csv(chr11q13_all, file="chr11q13_all.csv")
+
+#selecting only breast cancer cell lines
+chr11q13_breast <- semi_join(chr11q13_all,BreastCA_lines)
+write.csv(chr11q13_breast, file="chr11q13_breast.csv")
+
