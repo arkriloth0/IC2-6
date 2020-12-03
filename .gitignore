@@ -2,3 +2,8 @@
 .Rhistory
 .RData
 .Ruserdata
+CCLE_gene_cn.csv
+CCLE_expression.csv
+Achilles_gene_effect.csv
+Achilles_gene_dependency.csv
+Copy_Number_(Absolute).csv
