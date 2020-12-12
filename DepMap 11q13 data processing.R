@@ -237,6 +237,42 @@ pak1_all <- pak1_CN %>%
   full_join(pak1_pdep)
 
 
+##RSF1
+
+#Get copy number of RSF1
+rsf1_CN <- fread("CCLE_gene_cn.csv", select = c("V1","RSF1 (51773)"))
+colnames(rsf1_CN) <- c("DepMap_ID","RSF1_copy_number")
+
+#Get absolute copy number of RSF1
+rsf1_absCN <- fread("Copy_Number_(Absolute).csv", select = c("V1","RSF1"),col.names = c("DepMap_ID","abs_CN"))
+colnames(rsf1_absCN) <- c("DepMap_ID","RSF1_abs_CN")
+
+#Get mRNA expression of RSF1
+rsf1_expression <- fread("CCLE_expression.csv", select = c("V1","RSF1 (51773)"))
+colnames(rsf1_expression) <- c("DepMap_ID","RSF1_mRNA_expression")
+
+#get protein expression of RSF1
+rsf1_prot <- prot %>% filter(entrez_id == "51773")%>%
+  select(depmap_id,protein_expression)
+colnames(rsf1_prot) <- c("DepMap_ID","RSF1_protein_expression")
+
+#get CRISPR dependency data of RSF1
+rsf1_dep <- fread("Achilles_gene_effect.csv", select = c("DepMap_ID","RSF1 (51773)"))
+colnames(rsf1_dep) <- c("DepMap_ID","RSF1_CERES")
+
+#get CRISPR dependency p value of RSF1
+rsf1_pdep <- fread("Achilles_gene_dependency.csv", select = c("DepMap_ID","RSF1 (51773)"))
+colnames(rsf1_pdep) <- c("DepMap_ID","RSF1_p_dep")
+
+#joining all RSF1 tables
+rsf1_all <- rsf1_CN %>%
+  full_join(rsf1_absCN) %>%
+  full_join(rsf1_expression) %>%
+  full_join(rsf1_prot) %>%
+  full_join(rsf1_dep) %>%
+  full_join(rsf1_pdep)
+
+
 ##GAB2
 
 #Get copy number of GAB2
@@ -280,6 +316,7 @@ chr11q13_all <- myeov_all %>%
   full_join(cttn_all) %>%
   full_join(emsy_all) %>%
   full_join(pak1_all) %>%
+  full_join(rsf1_all) %>%
   full_join(gab2_all)
 
 #Adding sample info/annotation
